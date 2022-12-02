@@ -17,15 +17,17 @@ games = [(lambda g: (convs[g[0]], convs[g[1]]))(game.split(" "))
 # part 1, sum up scores with XYZ being your hand
 score = 0
 for them, me in games:
-    score += 6 if win(me, them) else 0
-    score += 3 if draw(me, them) else 0
+    if win(me, them): score += 6
+    if draw(me, them): score += 3
     score += me
 print(score)
 
 # part 2, sum up scores with XYZ being result
 score = 0
 for them, result in games:
-    if result == DRAW: score += 3 + them
-    if result == WIN: score += 6 + winners[them]
-    if result == LOSE: score += 0 + losers[them]
+    score += {
+        DRAW: 3 + them, 
+        WIN: 6 + winners[them], 
+        LOSE: losers[them]
+    }[result]
 print(score)
